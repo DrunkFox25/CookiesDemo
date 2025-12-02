@@ -1,11 +1,11 @@
 //https://cookiestore.spec.whatwg.org/
 let doc = document.documentElement;
 
-let text = document.getElementById("text");
-let enter = document.getElementById("enter");
+
+let text = document.getElementById("text").innerHTML;
+
+
 let msg = document.getElementById("msg");
-
-
 let MSG = {
     tout: null,
     set: function(str){
@@ -20,14 +20,14 @@ let MSG = {
 
 
 
-text.value = await cookieStore.get('text');
 
-async function setCook(){
-    await cookieStore.set('text', text.value);
-
+function setCook(str){
     MSG.set("Cookie Set!");
+
+    if(str.length > 0) text = str;
+
+    cookieStore.set('text', text);
 }
 
 
-text.addEventListener('keyup', setCook);
-enter.addEventListener('click', setCook);
+text = cookieStore.get('text');
