@@ -6,23 +6,28 @@ let enter = document.getElementById("enter");
 let msg = document.getElementById("msg");
 
 
+let MSG = {
+    tout: null,
+    set: function(str){
+        if(MSG.tout != null) clearTimeout(MSG.tout);
+        msg.innerHTML = str;
+        MSG.tout = setTimeout(function(){msg.innerHTML = ""; MSG.tout = null;}, 5000);
+    }
+};
 
 
 
 
 
 
-text.value = cookieStore.get('text');
+text.value = await cookieStore.get('text');
 
-function setCook(){
-    msg.innerHTML = "Cookie Set!";
-    setTimeout(function(){msg.innerHTML = "";}, 5000);
-    cookieStore.set('text', text.value);
+async function setCook(){
+    await cookieStore.set('text', text.value);
+
+    MSG.set("Cookie Set!");
 }
 
 
-text.addEventListener('keyup', event => function(){
-    if(event.key == "Enter") setCook();
-});
-
-GamepadButton.addEventListener('click', setCook);
+text.addEventListener('keyup', setCook);
+enter.addEventListener('click', setCook);
